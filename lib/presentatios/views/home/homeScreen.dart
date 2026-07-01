@@ -1,13 +1,13 @@
-// import 'package:app_fixed/costants/app_them.dart';
 import 'package:app_fixed/Business_logic/cubit/products_cupit/products_cubit.dart';
 import 'package:app_fixed/core/constants/strings.dart';
-import 'package:app_fixed/data/model/products.dart';
-import 'package:app_fixed/presentatios/views/home/customBottomNavgation.dart';
+import 'package:app_fixed/data/model/products/products.dart';
+// import 'package:app_fixed/presentatios/views/home/customBottomNavgation.dart';
+import 'package:app_fixed/presentatios/views/home/custom_categories_icons.dart';
 import 'package:app_fixed/presentatios/widget/search.dart';
 // import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -18,95 +18,6 @@ class Homescreen extends StatefulWidget {
 
 class _Homescreen extends State<Homescreen> {
   List<Product> allProductsList = [];
-  int cuarentInex = 0;
-
-  Widget buildCategories() {
-    return Row(
-      spacing: 40, // الـ spacing بتاعك المظبوط عشان السكرول
-      children: [
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.clock),
-          ),
-          'Watch',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.shoePrints),
-          ),
-          'Shoes',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.mobileScreenButton),
-          ),
-          'Phones',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.laptop),
-          ),
-          'Laptops',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.bottleDroplet),
-          ),
-          'Perfume',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.wandMagicSparkles),
-          ),
-          'Makeup',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.appleWhole),
-          ),
-          'Food',
-        ),
-
-        buildCategory(
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.couch),
-          ),
-          'Furniture',
-        ),
-      ],
-    );
-  }
-
-  Widget buildCategory(IconButton icon, String text) {
-    return Column(
-      children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F7),
-            borderRadius: BorderRadius.circular(200),
-          ),
-          child: icon,
-        ),
-        Text(text),
-      ],
-    );
-  }
 
   Widget buildGrid(List<Product> products) {
     return GridView.builder(
@@ -118,8 +29,8 @@ class _Homescreen extends State<Homescreen> {
         mainAxisSpacing: 5,
       ),
 
-      // shrinkWrap: true,
-      // physics: const ClampingScrollPhysics(),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return productItem(products[index]);
       },
@@ -160,10 +71,25 @@ class _Homescreen extends State<Homescreen> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<ProductsCubit>().getAllProducts();
+  Widget offLine() {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Text("Check The Internet ", style: TextStyle(fontSize: 20)),
+          ),
+          SizedBox(height: 25),
+          SizedBox(
+            height: 300,
+            width: double.infinity,
+            child: Image.asset('images/offLineImage.png'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -172,12 +98,12 @@ class _Homescreen extends State<Homescreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("LuxuShop", style: TextStyle(fontSize: 30)),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, loginScreen);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.pushNamed(context, loginScreen);
+        //   },
+        //   icon: Icon(Icons.arrow_back),
+        // ),
         actions: [
           IconButton(
             onPressed: () {
@@ -191,48 +117,57 @@ class _Homescreen extends State<Homescreen> {
         ],
       ),
 
-      bottomNavigationBar: CustombottomNavgationBar(
-        cuarentindex: cuarentInex,
-        ontap: (value) {
-          setState(() {
-            cuarentInex = value;
-          });
-        },
-      ),
+      body: OfflineBuilder(
+        connectivityBuilder:
+            (
+              BuildContext context,
+              List<ConnectivityResult> connectivity,
+              Widget child,
+            ) {
+              final bool connected = !connectivity.contains(
+                ConnectivityResult.none,
+              );
+              if (connected) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            textAlign: TextAlign.left,
+                            "Shop by Category ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        CustomCategoriesIcons(),
 
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                textAlign: TextAlign.left,
-                "Shop by Category ",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-            ),
-            SizedBox(height: 30),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: buildCategories(),
-            ),
-            Expanded(
-              flex: 1,
-              child: BlocBuilder<ProductsCubit, ProductsState>(
-                builder: (context, state) {
-                  if (state is ProductsSuccess) {
-                    allProductsList = state.products;
-                    return buildGrid(state.products);
-                  } else if (state is ProductsLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return Text('data is not found');
-                },
-              ),
-            ),
-          ],
-        ),
+                        BlocBuilder<ProductsCubit, ProductsState>(
+                          builder: (context, state) {
+                            if (state is ProductsSuccess) {
+                              allProductsList = state.products;
+                              return buildGrid(state.products);
+                            } else if (state is ProductsLoading) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            return Text('data is not found');
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return offLine();
+              }
+            },
+        child: Text(""),
       ),
     );
   }

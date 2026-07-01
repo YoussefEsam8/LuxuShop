@@ -1,12 +1,14 @@
+import 'package:app_fixed/core/constants/strings.dart';
 import 'package:app_fixed/core/them/app_them.dart';
+// import 'package:app_fixed/presentatios/views/Categories/categories_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustombottomNavgationBar extends StatelessWidget {
-  final int cuarentindex;
+  final int currentIndex;
   final Function(int) ontap;
   const CustombottomNavgationBar({
     super.key,
-    required this.cuarentindex,
+    required this.currentIndex,
     required this.ontap,
   });
 
@@ -15,7 +17,7 @@ class CustombottomNavgationBar extends StatelessWidget {
     return BottomNavigationBar(
       selectedFontSize: 15,
       iconSize: 20,
-      currentIndex: cuarentindex,
+      currentIndex: currentIndex,
       showSelectedLabels: true,
       showUnselectedLabels: true,
       selectedItemColor: AppTheme.primaryGold,

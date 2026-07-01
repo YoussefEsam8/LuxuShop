@@ -1,4 +1,4 @@
-import 'package:app_fixed/data/model/products.dart';
+import 'package:app_fixed/data/model/products/products.dart';
 import 'package:app_fixed/data/services/api_services.dart';
 
 class Productsrebository {

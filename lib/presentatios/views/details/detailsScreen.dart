@@ -1,4 +1,4 @@
-import 'package:app_fixed/data/model/products.dart';
+import 'package:app_fixed/data/model/products/products.dart';
 import 'package:app_fixed/presentatios/views/details/Product_imag_details.dart';
 import 'package:app_fixed/presentatios/views/details/Productdetails_section.dart';
 import 'package:app_fixed/presentatios/views/details/product_action.dart';

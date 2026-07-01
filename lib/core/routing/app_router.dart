@@ -1,8 +1,11 @@
+import 'package:app_fixed/Business_logic/cubit/category_cupit/category_cubit.dart';
 import 'package:app_fixed/Business_logic/cubit/products_cupit/products_cubit.dart';
 import 'package:app_fixed/core/constants/strings.dart';
 import 'package:app_fixed/Business_logic/cubit/login_cupit/login_cupit_cubit.dart';
-import 'package:app_fixed/data/model/products.dart';
+import 'package:app_fixed/data/model/products/products.dart';
 import 'package:app_fixed/core/di/injection.dart';
+import 'package:app_fixed/presentatios/mainScreen/mainScreen.dart';
+import 'package:app_fixed/presentatios/views/Categories/categories_screen.dart';
 import 'package:app_fixed/presentatios/views/auth/SignUp.dart';
 import 'package:app_fixed/presentatios/views/auth/forget.dart';
 import 'package:app_fixed/presentatios/views/auth/login.dart';
@@ -28,12 +31,7 @@ class AppRouter {
         );
 
       case homeScreen:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => getIt<ProductsCubit>(),
-            child: Homescreen(),
-          ),
-        );
+        return MaterialPageRoute(builder: (_) => Mainscreen());
 
       case forgetScreen:
         return MaterialPageRoute(builder: (_) => Forget());
@@ -42,6 +40,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SignUp());
       case onboarding:
         return MaterialPageRoute(builder: (_) => Onboarding());
+      case categoriesScreen:
+        return MaterialPageRoute(builder: (_) => CategoriesScreen());
 
       case detailScreen:
         final products = settings.arguments as Product;

@@ -10,6 +10,7 @@ const String onboarding = '/Onboarding';
 const String forgetScreen = '/ forget';
 const String signScreen = '/SignUp';
 const String detailScreen = '/detailsScreen';
+const String categoriesScreen = '/categories_screen';
 
 /// on Boarding///
 

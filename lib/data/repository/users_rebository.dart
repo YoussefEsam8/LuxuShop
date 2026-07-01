@@ -1,4 +1,4 @@
-import 'package:app_fixed/data/model/user.dart';
+import 'package:app_fixed/data/model/user/user.dart';
 import 'package:app_fixed/data/services/api_services.dart';
 
 class UsersRebository {

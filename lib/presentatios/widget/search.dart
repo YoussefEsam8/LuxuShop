@@ -1,5 +1,5 @@
 import 'package:app_fixed/core/constants/strings.dart';
-import 'package:app_fixed/data/model/products.dart';
+import 'package:app_fixed/data/model/products/products.dart';
 import 'package:flutter/material.dart';
 
 class Search extends SearchDelegate {
